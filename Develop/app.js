@@ -107,47 +107,42 @@ class UserAnswers {
 }
 
 async function init() {
-  input = new UserAnswers();
-  await input.requestInput();
+  const input = new UserAnswers();
+  const inputArray = await input.requestInput();
 
   let softwareteam = [];
 
-  let employee = {};
-  if (employee.type === "Manager") {
-    employee = new Manager(
-      employee.name,
-      employee.id,
-      employee.email,
-      employee.addParam
-    );
+  for (i = 0; i < inputArray.length; i++) {
+    if (employee.type === "Manager") {
+      employee = new Manager(
+        employee.name,
+        employee.id,
+        employee.email,
+        employee.addParam
+      );
+    }
+    if (employee.type === "Engineer") {
+      employee = new Engineer(
+        employee.name,
+        employee.id,
+        employee.email,
+        employee.addParam
+      );
+    }
+    if (employee.type === "Intern") {
+      employee = new Intern(
+        employee.name,
+        employee.id,
+        employee.email,
+        employee.addParam
+      );
+    }
+    softwareteam.push(employee);
   }
-  if (employee.type === "Engineer") {
-    employee = new Engineer(
-      employee.name,
-      employee.id,
-      employee.email,
-      employee.addParam
-    );
-  }
-  if (employee.type === "Intern") {
-    employee = new Intern(
-      employee.name,
-      employee.id,
-      employee.email,
-      employee.addParam
-    );
-  }
-  softwareteam.push(employee);
 
-  // let teamPage = new makeHTML.TeamProfile(softwareteam);
-  // let html = makeHTML.TeamProfile.generateTeam();
+  render(softwareteam);
 
-  // fs.writeFile("./output/MyTeam.html", html, (err) => {
-  //   if (err) throw err;
-  //   else console.log("HTML file generated successfully");
-  // });
-
-  render(answers);
+  console.log(inputArray);
 }
 
 init();

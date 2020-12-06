@@ -2,7 +2,7 @@ const fs = require("fs");
 
 class TeamProfile {
   constructor(team) {
-    this.team = team; // add manager to the array of members
+    this.team = team;
   }
 
   generateTeam() {
