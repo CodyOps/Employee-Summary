@@ -5,8 +5,8 @@ const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 
-const userinput = require("UserAnswers.js");
-const generateHTML = require("Develop/lib/makeHTML.js");
+// const userinput = require("./lib/UserAnswers");
+// const generateHTML = require("./lib/makeHTML");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
@@ -36,8 +36,77 @@ const render = require("./lib/htmlRenderer");
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
 
+class UserAnswers {
+  constructor() {
+    this.Answers = [];
+    this.counter = 1;
+  }
+
+  async requestInput() {
+    let type = "Manager";
+    let manager = await this.askQuestions(type);
+    manager.type = type;
+    this.Answers.push(manager);
+    let askMore = true;
+    while (askMore === true) {
+      let newMember = await inquirer.prompt({
+        type: "list",
+        message: "Please select another team member or click on Exit to quit:",
+        choices: ["Engineer", "Intern", "Exit"],
+        name: "type",
+      });
+      type = newMember.type;
+      if (type === "Exit") {
+        askMore = false;
+      } else {
+        let employee = await this.askQuestions(type);
+        employee.type = type;
+        this.Answers.push(employee);
+      }
+    }
+  }
+
+  async askQuestions(type) {
+    let param = "";
+    switch (type) {
+      case "Manager":
+        param = "office number";
+        break;
+      case "Engineer":
+        param = "git hub";
+        break;
+      case "Intern":
+        param = "school";
+        break;
+    }
+    let answer = await inquirer.prompt([
+      {
+        type: "input",
+        message: `Please input ${type}'s name:`,
+        name: "name",
+      },
+      {
+        type: "input",
+        message: `Please input ${type}'s email:`,
+        name: "email",
+      },
+      {
+        type: "input",
+        message: `Please input ${type}'s ID:`,
+        name: "id",
+      },
+      {
+        type: "input",
+        message: `Please input ${type}'s ${param}:`,
+        name: "addParam",
+      },
+    ]);
+    return answer;
+  }
+}
+
 async function init() {
-  input = new uinput.UserAnswers();
+  input = new UserAnswers();
   await input.requestInput();
 
   let softwareteam = [];
