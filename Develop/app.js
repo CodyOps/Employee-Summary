@@ -4,10 +4,6 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
-const makeHTML = require("./lib/makeHTML");
-
-// const userinput = require("./lib/UserAnswers");
-// const generateHTML = require("./lib/makeHTML");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
@@ -109,6 +105,8 @@ class UserAnswers {
 async function init() {
   const input = new UserAnswers();
   const inputArray = await input.requestInput();
+
+  console.log(inputArray);
 
   let softwareteam = [];
 
