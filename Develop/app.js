@@ -5,7 +5,7 @@ const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 
-const userinput = require("Develop/lib/UserAnswers.js");
+const userinput = require("UserAnswers.js");
 const generateHTML = require("Develop/lib/makeHTML.js");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
@@ -35,3 +35,47 @@ const render = require("./lib/htmlRenderer");
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
+
+async function init() {
+  input = new uinput.UserAnswers();
+  await input.requestInput();
+
+  let softwareteam = [];
+  for (record of input.allAnswers) {
+    let employee = {};
+    if (record.type === "Manager") {
+      employee = new Manager(
+        record.name,
+        record.id,
+        record.email,
+        record.addParam
+      );
+    }
+    if (record.type === "Engineer") {
+      employee = new Engineer(
+        record.name,
+        record.id,
+        record.email,
+        record.addParam
+      );
+    }
+    if (record.type === "Intern") {
+      employee = new Intern(
+        record.name,
+        record.id,
+        record.email,
+        record.addParam
+      );
+    }
+    softwareteam.push(employee);
+  }
+  let teamPage = new genHTML.TeamPage(softwareteam);
+  let html = teamPage.generate();
+
+  fs.writeFile("./output/MyTeam.html", html, (err) => {
+    if (err) throw err;
+    else console.log("HTML file generated successfully");
+  });
+}
+
+init();
