@@ -4,6 +4,7 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
+const makeHTML = require("./lib/makeHTML");
 
 // const userinput = require("./lib/UserAnswers");
 // const generateHTML = require("./lib/makeHTML");
@@ -67,16 +68,16 @@ class UserAnswers {
   }
 
   async askQuestions(type) {
-    let param = "";
+    let parameter = "";
     switch (type) {
       case "Manager":
-        param = "office number";
+        parameter = "office number";
         break;
       case "Engineer":
-        param = "git hub";
+        parameter = "git hub";
         break;
       case "Intern":
-        param = "school";
+        parameter = "university";
         break;
     }
     let answer = await inquirer.prompt([
@@ -97,7 +98,7 @@ class UserAnswers {
       },
       {
         type: "input",
-        message: `Please input ${type}'s ${param}:`,
+        message: `Please input ${type}'s ${parameter}:`,
         name: "addParam",
       },
     ]);
@@ -110,41 +111,43 @@ async function init() {
   await input.requestInput();
 
   let softwareteam = [];
-  for (record of input.allAnswers) {
-    let employee = {};
-    if (record.type === "Manager") {
-      employee = new Manager(
-        record.name,
-        record.id,
-        record.email,
-        record.addParam
-      );
-    }
-    if (record.type === "Engineer") {
-      employee = new Engineer(
-        record.name,
-        record.id,
-        record.email,
-        record.addParam
-      );
-    }
-    if (record.type === "Intern") {
-      employee = new Intern(
-        record.name,
-        record.id,
-        record.email,
-        record.addParam
-      );
-    }
-    softwareteam.push(employee);
-  }
-  let teamPage = new genHTML.TeamPage(softwareteam);
-  let html = teamPage.generate();
 
-  fs.writeFile("./output/MyTeam.html", html, (err) => {
-    if (err) throw err;
-    else console.log("HTML file generated successfully");
-  });
+  let employee = {};
+  if (employee.type === "Manager") {
+    employee = new Manager(
+      employee.name,
+      employee.id,
+      employee.email,
+      employee.addParam
+    );
+  }
+  if (employee.type === "Engineer") {
+    employee = new Engineer(
+      employee.name,
+      employee.id,
+      employee.email,
+      employee.addParam
+    );
+  }
+  if (employee.type === "Intern") {
+    employee = new Intern(
+      employee.name,
+      employee.id,
+      employee.email,
+      employee.addParam
+    );
+  }
+  softwareteam.push(employee);
+
+  // let teamPage = new makeHTML.TeamProfile(softwareteam);
+  // let html = makeHTML.TeamProfile.generateTeam();
+
+  // fs.writeFile("./output/MyTeam.html", html, (err) => {
+  //   if (err) throw err;
+  //   else console.log("HTML file generated successfully");
+  // });
+
+  render(answers);
 }
 
 init();
