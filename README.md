@@ -32,6 +32,10 @@ This project was designed to use Node.js and Express.js to allow any user to cre
 
 _Photos of this Project:_
 
+![Screen Shot 2020-12-06 at 6 15 26 PM](https://user-images.githubusercontent.com/70075378/101299414-5fdd9280-37ef-11eb-9e59-b84693111868.png)
+
+![Screen Shot 2020-12-06 at 6 17 35 PM](https://user-images.githubusercontent.com/70075378/101299421-6a982780-37ef-11eb-95e2-76f611e709f1.png)
+
 ## License
 
 MIT License
